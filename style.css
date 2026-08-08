@@ -1,0 +1,1138 @@
+/* =========================================================
+   COMME MESSENGER — STYLE.CSS
+========================================================= */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background: #f4f3ff;
+  color: #222;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+
+/* =========================================================
+   AUTH PAGES
+========================================================= */
+
+.auth-page {
+  min-height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      #8f7cff,
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      #00d2c8,
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #30245f,
+      #6755dc
+    );
+}
+
+.auth-card {
+  width: 400px;
+  max-width: 100%;
+
+  padding: 35px;
+
+  background: white;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, .25);
+
+  text-align: center;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand-icon {
+  width: 60px;
+  height: 60px;
+
+  margin: 0 auto 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c5ce7,
+      #00cec9
+    );
+
+  color: white;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.brand h1 {
+  font-size: 34px;
+}
+
+.brand p {
+  margin: 5px 0 25px;
+
+  color: #888;
+}
+
+
+/* =========================================================
+   AUTH FORM
+========================================================= */
+
+.auth-card h2 {
+  margin-bottom: 15px;
+}
+
+.auth-card input {
+  width: 100%;
+
+  padding: 14px;
+
+  margin: 6px 0;
+
+  border: 1px solid #ddd;
+
+  border-radius: 11px;
+
+  outline: none;
+
+  transition:
+    border .2s,
+    box-shadow .2s;
+}
+
+.auth-card input:focus {
+  border-color: #6c5ce7;
+
+  box-shadow:
+    0 0 0 3px rgba(108, 92, 231, .1);
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.primary-btn {
+  width: 100%;
+
+  padding: 14px;
+
+  margin-top: 12px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  color: white;
+
+  font-weight: bold;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c5ce7,
+      #5544d6
+    );
+
+  transition:
+    transform .15s,
+    box-shadow .15s,
+    filter .15s;
+}
+
+.primary-btn:hover {
+  filter: brightness(1.08);
+
+  box-shadow:
+    0 7px 18px rgba(108, 92, 231, .25);
+}
+
+.primary-btn:active {
+  transform: scale(.98);
+}
+
+.text-btn {
+  border: none;
+
+  background: none;
+
+  color: #6c5ce7;
+
+  margin-top: 18px;
+}
+
+.text-btn:hover {
+  text-decoration: underline;
+}
+
+.error {
+  min-height: 18px;
+
+  margin-top: 10px;
+
+  color: #e74c3c;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   MAIN APP
+========================================================= */
+
+#app {
+  width: 100%;
+  height: 100vh;
+}
+
+.messenger {
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+
+  background: white;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+  width: 340px;
+  min-width: 340px;
+
+  display: flex;
+  flex-direction: column;
+
+  border-right: 1px solid #e5e5ee;
+
+  background: white;
+}
+
+.sidebar-top {
+  padding: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.app-title {
+  font-size: 27px;
+  font-weight: bold;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c5ce7,
+      #00b894
+    );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  color: transparent;
+}
+
+.app-subtitle {
+  color: #999;
+
+  font-size: 12px;
+}
+
+.logout-btn {
+  width: 40px;
+  height: 40px;
+
+  border: none;
+
+  border-radius: 11px;
+
+  background: #f0efff;
+
+  color: #6c5ce7;
+
+  font-size: 18px;
+
+  transition:
+    background .2s,
+    transform .15s;
+}
+
+.logout-btn:hover {
+  background: #e5e2ff;
+}
+
+.logout-btn:active {
+  transform: scale(.95);
+}
+
+
+/* =========================================================
+   CURRENT PROFILE
+========================================================= */
+
+.my-profile {
+  margin: 0 15px 15px;
+
+  padding: 12px;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: 15px;
+
+  background: #f7f6ff;
+
+  cursor: pointer;
+
+  transition:
+    background .2s,
+    transform .15s;
+}
+
+.my-profile:hover {
+  background: #eeecff;
+}
+
+.my-profile:active {
+  transform: scale(.99);
+}
+
+.profile-info {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.profile-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.profile-info span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: #888;
+
+  font-size: 12px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.edit-icon {
+  color: #6c5ce7;
+
+  font-size: 17px;
+}
+
+
+/* =========================================================
+   AVATARS
+========================================================= */
+
+.avatar {
+  width: 48px;
+  height: 48px;
+
+  margin-right: 12px;
+
+  flex-shrink: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c5ce7,
+      #00cec9
+    );
+
+  color: white;
+
+  font-weight: bold;
+
+  user-select: none;
+}
+
+.avatar.small {
+  width: 44px;
+  height: 44px;
+}
+
+
+/* =========================================================
+   TABS
+========================================================= */
+
+.tabs {
+  display: flex;
+
+  padding: 0 15px;
+
+  border-bottom: 1px solid #eee;
+}
+
+.tab {
+  flex: 1;
+
+  padding: 12px;
+
+  border: none;
+
+  border-bottom: 2px solid transparent;
+
+  background: none;
+
+  color: #888;
+
+  transition:
+    color .2s,
+    border-color .2s;
+}
+
+.tab:hover {
+  color: #6c5ce7;
+}
+
+.tab.active {
+  color: #6c5ce7;
+
+  border-bottom-color: #6c5ce7;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search {
+  margin: 15px;
+
+  padding: 13px 16px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 20px;
+
+  background: #f2f2f8;
+
+  transition:
+    box-shadow .2s,
+    background .2s;
+}
+
+.search:focus {
+  background: white;
+
+  box-shadow:
+    0 0 0 2px #6c5ce7;
+}
+
+
+/* =========================================================
+   USER LIST
+========================================================= */
+
+.users {
+  flex: 1;
+
+  overflow-y: auto;
+
+  scrollbar-width: thin;
+
+  scrollbar-color: #c9c5ed transparent;
+}
+
+.users::-webkit-scrollbar {
+  width: 6px;
+}
+
+.users::-webkit-scrollbar-thumb {
+  background: #c9c5ed;
+
+  border-radius: 10px;
+}
+
+.user {
+  display: flex;
+
+  align-items: center;
+
+  padding: 12px 15px;
+
+  cursor: pointer;
+
+  transition:
+    background .15s;
+}
+
+.user:hover {
+  background: #f6f6fb;
+}
+
+.user.active {
+  background: #eeeaff;
+}
+
+.user-info {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.user-info strong {
+  display: block;
+
+  margin-bottom: 4px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.user-info span {
+  display: block;
+
+  color: #888;
+
+  font-size: 12px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   ADD FRIEND BUTTON
+========================================================= */
+
+.friend-btn {
+  border: none;
+
+  border-radius: 8px;
+
+  padding: 7px 10px;
+
+  background: #6c5ce7;
+
+  color: white;
+
+  font-size: 11px;
+
+  transition:
+    background .2s,
+    transform .15s;
+}
+
+.friend-btn:hover {
+  background: #5544d6;
+}
+
+.friend-btn:active {
+  transform: scale(.95);
+}
+
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+.chat {
+  flex: 1;
+
+  min-width: 0;
+
+  display: flex;
+}
+
+.empty-chat {
+  flex: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  text-align: center;
+
+  color: #888;
+}
+
+.empty-icon {
+  font-size: 55px;
+
+  margin-bottom: 12px;
+}
+
+.empty-chat h2 {
+  color: #222;
+
+  margin-bottom: 7px;
+}
+
+.chat-area {
+  flex: 1;
+
+  min-width: 0;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* =========================================================
+   CHAT HEADER
+========================================================= */
+
+.chat-header {
+  height: 72px;
+
+  padding: 12px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  border-bottom: 1px solid #eee;
+
+  background: white;
+}
+
+.chat-user-info {
+  min-width: 0;
+}
+
+.chat-user-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+.chat-user-info span {
+  color: #888;
+
+  font-size: 12px;
+}
+
+.back-btn {
+  display: none;
+
+  border: none;
+
+  background: none;
+
+  font-size: 22px;
+
+  margin-right: 8px;
+
+  color: #6c5ce7;
+}
+
+
+/* =========================================================
+   MESSAGES
+========================================================= */
+
+.messages {
+  flex: 1;
+
+  padding: 20px;
+
+  overflow-y: auto;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff,
+      #fafaff
+    );
+
+  scrollbar-width: thin;
+
+  scrollbar-color: #c9c5ed transparent;
+}
+
+.messages::-webkit-scrollbar {
+  width: 7px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: #c9c5ed;
+
+  border-radius: 10px;
+}
+
+.message {
+  max-width: 65%;
+
+  padding: 10px 14px;
+
+  border-radius: 18px;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+
+  animation:
+    messageIn .15s ease;
+}
+
+@keyframes messageIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+.sent {
+  align-self: flex-end;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c5ce7,
+      #5544d6
+    );
+
+  border-bottom-right-radius: 5px;
+}
+
+.received {
+  align-self: flex-start;
+
+  color: #222;
+
+  background: #eeeeF7;
+
+  border-bottom-left-radius: 5px;
+}
+
+.message-time {
+  margin-top: 3px;
+
+  font-size: 9px;
+
+  opacity: .65;
+}
+
+
+/* =========================================================
+   MESSAGE INPUT
+========================================================= */
+
+.message-input {
+  display: flex;
+
+  gap: 10px;
+
+  padding: 15px;
+
+  border-top: 1px solid #eee;
+
+  background: white;
+}
+
+.message-input input {
+  flex: 1;
+
+  min-width: 0;
+
+  padding: 13px 17px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 22px;
+
+  background: #f2f2f8;
+
+  transition:
+    box-shadow .2s,
+    background .2s;
+}
+
+.message-input input:focus {
+  background: white;
+
+  box-shadow:
+    0 0 0 2px #6c5ce7;
+}
+
+.send-btn {
+  width: 46px;
+  height: 46px;
+
+  flex-shrink: 0;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c5ce7,
+      #5544d6
+    );
+
+  color: white;
+
+  font-size: 17px;
+
+  transition:
+    transform .15s,
+    box-shadow .2s;
+}
+
+.send-btn:hover {
+  box-shadow:
+    0 5px 15px rgba(108, 92, 231, .3);
+}
+
+.send-btn:active {
+  transform: scale(.92);
+}
+
+
+/* =========================================================
+   PROFILE MODAL
+========================================================= */
+
+.modal {
+  position: fixed;
+
+  inset: 0;
+
+  display: none;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 20px;
+
+  background: rgba(0, 0, 0, .55);
+
+  z-index: 100;
+}
+
+.modal.show {
+  display: flex;
+}
+
+.modal-card {
+  width: 400px;
+
+  max-width: 100%;
+
+  position: relative;
+
+  padding: 25px;
+
+  background: white;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, .25);
+
+  animation:
+    modalIn .2s ease;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+
+    transform: scale(.95);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: scale(1);
+  }
+}
+
+.modal-close {
+  position: absolute;
+
+  right: 15px;
+
+  top: 12px;
+
+  width: 32px;
+
+  height: 32px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: #eee;
+
+  font-size: 20px;
+
+  color: #555;
+}
+
+.modal-close:hover {
+  background: #e5e5e5;
+}
+
+.modal-card h2 {
+  margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   PROFILE AVATAR
+========================================================= */
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6c5ce7,
+      #00cec9
+    );
+
+  color: white;
+
+  font-size: 38px;
+
+  font-weight: bold;
+}
+
+
+/* =========================================================
+   PROFILE FORM
+========================================================= */
+
+.modal-card label {
+  display: block;
+
+  margin-top: 12px;
+
+  font-size: 13px;
+
+  font-weight: bold;
+}
+
+.modal-card input,
+.modal-card textarea {
+  width: 100%;
+
+  margin-top: 6px;
+
+  padding: 13px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 10px;
+
+  outline: none;
+}
+
+.modal-card input:focus,
+.modal-card textarea:focus {
+  border-color: #6c5ce7;
+
+  box-shadow:
+    0 0 0 2px rgba(108, 92, 231, .08);
+}
+
+.modal-card textarea {
+  height: 90px;
+
+  resize: none;
+}
+
+.status {
+  margin-top: 10px;
+
+  text-align: center;
+
+  color: #6c5ce7;
+
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE / MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .sidebar {
+    width: 100%;
+
+    min-width: 100%;
+  }
+
+  .chat {
+    display: none;
+  }
+
+  .messenger.chat-open .sidebar {
+    display: none;
+  }
+
+  .messenger.chat-open .chat {
+    display: flex;
+  }
+
+  .back-btn {
+    display: block;
+  }
+
+  .message {
+    max-width: 82%;
+  }
+
+  .auth-card {
+    padding: 25px 20px;
+  }
+
+  .sidebar-top {
+    padding: 15px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .auth-card {
+    border-radius: 18px;
+  }
+
+  .app-title {
+    font-size: 24px;
+  }
+
+  .message-input {
+    padding: 10px;
+  }
+
+  .messages {
+    padding: 12px;
+  }
+
+  }
