@@ -1,1 +1,633 @@
-rules_version = '2'; service cloud.firestore { match /databases/{database}/documents { /* ========================= USER PROFILES ========================= */ match /users/{userId} { allow read: if request.auth != null; allow create: if request.auth != null && request.auth.uid == userId; allow update: if request.auth != null && request.auth.uid == userId; allow delete: if request.auth != null && request.auth.uid == userId; } /* ========================= FRIEND REQUESTS ========================= */ match /friendRequests/{requestId} { allow create: if request.auth != null && request.resource.data.senderId == request.auth.uid && request.resource.data.receiverId != request.auth.uid && request.resource.data.status == "pending"; allow read: if request.auth != null && ( resource.data.senderId == request.auth.uid || resource.data.receiverId == request.auth.uid ); allow update: if request.auth != null && resource.data.receiverId == request.auth.uid && request.resource.data.senderId == resource.data.senderId && request.resource.data.receiverId == resource.data.receiverId && ( request.resource.data.status == "accepted" || request.resource.data.status == "declined" ); allow delete: if request.auth != null && resource.data.senderId == request.auth.uid; } /* ========================= FRIENDSHIPS ========================= */ match /friendships/{friendshipId} { allow read: if request.auth != null && request.auth.uid in resource.data.users; allow create: if request.auth != null && request.auth.uid in request.resource.data.users && request.resource.data.users.size() == 2; allow update: if request.auth != null && request.auth.uid in resource.data.users; allow delete: if request.auth != null && request.auth.uid in resource.data.users; } /* ========================= PRIVATE CHATS ========================= */ match /chats/{chatId} { allow create: if request.auth != null && request.resource.data.participants.size() == 2 && request.auth.uid in request.resource.data.participants; allow read: if request.auth != null && request.auth.uid in resource.data.participants; allow update: if request.auth != null && request.auth.uid in resource.data.participants; allow delete: if request.auth != null && request.auth.uid in resource.data.participants; /* ========================= MESSAGES ========================= */ match /messages/{messageId} { allow read: if request.auth != null && request.auth.uid in get( /databases/$(database)/documents/chats/$(chatId) ).data.participants; allow create: if request.auth != null && request.auth.uid in get( /databases/$(database)/documents/chats/$(chatId) ).data.participants && request.resource.data.senderId == request.auth.uid && request.resource.data.receiverId in get( /databases/$(database)/documents/chats/$(chatId) ).data.participants; allow update, delete: if false; } } } }
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Comme Messenger</title>
+
+  <link
+    rel="stylesheet"
+    href="style.css"
+  >
+
+</head>
+
+
+<body>
+
+
+  <!-- =====================================================
+       LOGIN
+  ====================================================== -->
+
+  <section
+    id="loginPage"
+    class="auth-page"
+  >
+
+    <div class="auth-card">
+
+      <div class="brand">
+
+        <div class="brand-icon">
+          C
+        </div>
+
+        <h1>Comme</h1>
+
+        <p>Connect with people</p>
+
+      </div>
+
+
+      <h2>Welcome Back</h2>
+
+
+      <input
+        id="loginEmail"
+        type="email"
+        placeholder="Email"
+        autocomplete="email"
+      >
+
+
+      <input
+        id="loginPassword"
+        type="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      >
+
+
+      <button
+        id="loginBtn"
+        class="primary-btn"
+        type="button"
+      >
+        Log In
+      </button>
+
+
+      <p
+        id="loginError"
+        class="error"
+      ></p>
+
+
+      <button
+        id="showRegisterBtn"
+        class="text-btn"
+        type="button"
+      >
+        Create an account
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       CREATE ACCOUNT
+  ====================================================== -->
+
+  <section
+    id="registerPage"
+    class="auth-page hidden"
+  >
+
+    <div class="auth-card">
+
+      <div class="brand">
+
+        <div class="brand-icon">
+          C
+        </div>
+
+        <h1>Comme</h1>
+
+        <p>Create your account</p>
+
+      </div>
+
+
+      <h2>Join Comme</h2>
+
+
+      <input
+        id="registerUsername"
+        type="text"
+        placeholder="Nickname"
+        autocomplete="nickname"
+      >
+
+
+      <input
+        id="registerEmail"
+        type="email"
+        placeholder="Email"
+        autocomplete="email"
+      >
+
+
+      <input
+        id="registerPassword"
+        type="password"
+        placeholder="Password"
+        autocomplete="new-password"
+      >
+
+
+      <input
+        id="confirmPassword"
+        type="password"
+        placeholder="Confirm password"
+        autocomplete="new-password"
+      >
+
+
+      <button
+        id="registerBtn"
+        class="primary-btn"
+        type="button"
+      >
+        Create Account
+      </button>
+
+
+      <p
+        id="registerError"
+        class="error"
+      ></p>
+
+
+      <button
+        id="showLoginBtn"
+        class="text-btn"
+        type="button"
+      >
+        Already have an account? Log In
+      </button>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =====================================================
+       MAIN APP
+  ====================================================== -->
+
+  <div
+    id="app"
+    class="hidden"
+  >
+
+    <div class="messenger">
+
+
+      <!-- =================================================
+           SIDEBAR
+      ================================================== -->
+
+      <aside class="sidebar">
+
+
+        <!-- Header -->
+
+        <div class="sidebar-top">
+
+          <div>
+
+            <div class="app-title">
+              Comme
+            </div>
+
+            <div class="app-subtitle">
+              Messenger
+            </div>
+
+          </div>
+
+
+          <button
+            id="logoutBtn"
+            class="logout-btn"
+            type="button"
+            title="Log out"
+          >
+            ↪
+          </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CURRENT PROFILE
+        ================================================== -->
+
+        <div
+          id="profileButton"
+          class="my-profile"
+        >
+
+          <div
+            id="myAvatar"
+            class="avatar"
+          >
+            ?
+          </div>
+
+
+          <div class="profile-info">
+
+            <strong id="myUsername">
+              Loading...
+            </strong>
+
+            <span id="myEmail">
+              Loading...
+            </span>
+
+          </div>
+
+
+          <div class="edit-icon">
+            ⚙
+          </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             NAVIGATION
+        ================================================== -->
+
+        <div class="tabs">
+
+          <button
+            id="chatsTab"
+            class="tab active"
+            type="button"
+          >
+            Chats
+          </button>
+
+
+          <button
+            id="friendsTab"
+            class="tab"
+            type="button"
+          >
+            Friends
+          </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             SEARCH USERS
+        ================================================== -->
+
+        <input
+          id="searchInput"
+          class="search"
+          type="search"
+          placeholder="Search users..."
+          autocomplete="off"
+        >
+
+
+
+        <!-- =================================================
+             ADD FRIEND
+        ================================================== -->
+
+        <button
+          id="addFriendBtn"
+          class="primary-btn"
+          type="button"
+          style="margin: 0 15px 15px; width: calc(100% - 30px);"
+        >
+          + Add Friend
+        </button>
+
+
+
+        <!-- =================================================
+             USER LIST
+        ================================================== -->
+
+        <div
+          id="users"
+          class="users"
+        >
+
+          <!-- JavaScript inserts users here -->
+
+        </div>
+
+
+      </aside>
+
+
+
+      <!-- =================================================
+           CHAT
+      ================================================== -->
+
+      <main class="chat">
+
+
+        <!-- Empty state -->
+
+        <div
+          id="emptyChat"
+          class="empty-chat"
+        >
+
+          <div>
+
+            <div class="empty-icon">
+              💬
+            </div>
+
+            <h2>
+              Welcome to Comme
+            </h2>
+
+            <p>
+              Select someone to start chatting.
+            </p>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- Active chat -->
+
+        <div
+          id="chatArea"
+          class="chat-area hidden"
+        >
+
+
+          <!-- Chat header -->
+
+          <header class="chat-header">
+
+
+            <button
+              id="backBtn"
+              class="back-btn"
+              type="button"
+            >
+              ←
+            </button>
+
+
+            <div
+              id="chatAvatar"
+              class="avatar"
+            >
+              ?
+            </div>
+
+
+            <div class="chat-user-info">
+
+              <strong id="chatName">
+                User
+              </strong>
+
+              <span id="chatStatus">
+                Comme Messenger
+              </span>
+
+            </div>
+
+          </header>
+
+
+
+          <!-- Messages -->
+
+          <div
+            id="messages"
+            class="messages"
+          >
+
+            <!-- Realtime messages inserted here -->
+
+          </div>
+
+
+
+          <!-- Message input -->
+
+          <div class="message-input">
+
+            <input
+              id="messageInput"
+              type="text"
+              placeholder="Type a message..."
+              autocomplete="off"
+            >
+
+
+            <button
+              id="sendBtn"
+              class="send-btn"
+              type="button"
+              title="Send message"
+            >
+              ➤
+            </button>
+
+          </div>
+
+
+        </div>
+
+
+      </main>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       ADD FRIEND MODAL
+  ====================================================== -->
+
+  <div
+    id="friendModal"
+    class="modal"
+  >
+
+    <div class="modal-card">
+
+      <button
+        id="closeFriendModal"
+        class="modal-close"
+        type="button"
+      >
+        ×
+      </button>
+
+
+      <h2>
+        Add Friend
+      </h2>
+
+
+      <p>
+        Search for a Comme user.
+      </p>
+
+
+      <input
+        id="friendSearchInput"
+        type="text"
+        placeholder="Enter nickname..."
+        autocomplete="off"
+      >
+
+
+      <button
+        id="findFriendBtn"
+        class="primary-btn"
+        type="button"
+      >
+        Search
+      </button>
+
+
+      <div
+        id="friendResults"
+        class="users"
+        style="margin-top: 15px;"
+      ></div>
+
+
+      <p
+        id="friendStatus"
+        class="status"
+      ></p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       PROFILE MODAL
+  ====================================================== -->
+
+  <div
+    id="profileModal"
+    class="modal"
+  >
+
+    <div class="modal-card">
+
+
+      <button
+        id="closeProfile"
+        class="modal-close"
+        type="button"
+      >
+        ×
+      </button>
+
+
+      <h2>
+        Edit Profile
+      </h2>
+
+
+      <div
+        id="profilePreview"
+        class="profile-avatar"
+      >
+        ?
+      </div>
+
+
+      <label for="editUsername">
+        Nickname
+      </label>
+
+
+      <input
+        id="editUsername"
+        type="text"
+        placeholder="Your nickname"
+      >
+
+
+      <label for="editBio">
+        Bio
+      </label>
+
+
+      <textarea
+        id="editBio"
+        placeholder="Tell people about yourself..."
+      ></textarea>
+
+
+      <button
+        id="saveProfileBtn"
+        class="primary-btn"
+        type="button"
+      >
+        Save Profile
+      </button>
+
+
+      <p
+        id="profileStatus"
+        class="status"
+      ></p>
+
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       FIREBASE + APP
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="app.js"
+  ></script>
+
+
+</body>
+
+</html>
+```
